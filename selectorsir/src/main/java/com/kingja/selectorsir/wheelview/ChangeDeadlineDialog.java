@@ -76,8 +76,8 @@ public class ChangeDeadlineDialog extends Dialog implements View.OnClickListener
 
 		vChangeBirth = findViewById(R.id.ly_myinfo_changebirth);
 		vChangeBirthChild = findViewById(R.id.ly_myinfo_changebirth_child);
-		btnSure = (TextView) findViewById(R.id.btn_myinfo_sure);
-		btnCancel = (TextView) findViewById(R.id.btn_myinfo_cancel);
+		btnSure = (TextView) findViewById(R.id.tv_selector_confirm);
+		btnCancel = (TextView) findViewById(R.id.tv_selector_cancel);
 
 		vChangeBirth.setOnClickListener(this);
 		vChangeBirthChild.setOnClickListener(this);

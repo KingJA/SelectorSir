@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -57,9 +58,13 @@ public class ChangeAddressDialog extends Dialog implements View.OnClickListener 
     private AddressTextAdapter provinceAdapter;
     private AddressTextAdapter cityAdapter;
     private AddressTextAdapter areaAdapter;
-    private String strProvinceId = "330000";
-    private String strCityId = "330300";
-    private String strAreaId = "330302";
+//    private String strProvinceId = "330000";
+//    private String strCityId = "330300";
+//    private String strAreaId = "330302";
+
+    private String strProvinceId = "";
+    private String strCityId = "";
+    private String strAreaId = "";
     private OnAddressCListener onAddressCListener;
     private int maxsize = 24;
     private int minsize = 14;
@@ -71,6 +76,7 @@ public class ChangeAddressDialog extends Dialog implements View.OnClickListener 
     public ChangeAddressDialog(Context context) {
         super(context, R.style.ShareDialog);
         this.context = context;
+        Log.e(TAG, "ChangeAddressDialog(Context context) : ");
     }
 
 
@@ -78,16 +84,17 @@ public class ChangeAddressDialog extends Dialog implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e(TAG, "onCreate: ");
         setContentView(R.layout.dialog_myinfo_changeaddress);
-
+        Log.e(TAG, "【onCreate1】 strProvince="+strProvince+" strCity="+strCity+" strArea="+strArea);
         wvProvince = (WheelView) findViewById(R.id.wv_address_province);
         wvCitys = (WheelView) findViewById(R.id.wv_address_city);
         wvAreas = (WheelView) findViewById(R.id.wv_address_area);
 
         lyChangeAddress = findViewById(R.id.ly_myinfo_changeaddress);
         lyChangeAddressChild = findViewById(R.id.ly_myinfo_changeaddress_child);
-        btnSure = (TextView) findViewById(R.id.btn_myinfo_sure);
-        btnCancel = (TextView) findViewById(R.id.btn_myinfo_cancel);
+        btnSure = (TextView) findViewById(R.id.tv_selector_confirm);
+        btnCancel = (TextView) findViewById(R.id.tv_selector_cancel);
 
         lyChangeAddress.setOnClickListener(this);
         lyChangeAddressChild.setOnClickListener(this);
@@ -103,6 +110,7 @@ public class ChangeAddressDialog extends Dialog implements View.OnClickListener 
 
         initCitys(mCitisDatasMap.get(strProvince));
         initCityIds(mCitisIdsMap.get(strProvince));
+
         cityAdapter = new AddressTextAdapter(context, arrCitys, getCityItem(strCity), maxsize, minsize);
         wvCitys.setVisibleItems(5);
         wvCitys.setViewAdapter(cityAdapter);
@@ -114,12 +122,13 @@ public class ChangeAddressDialog extends Dialog implements View.OnClickListener 
         wvAreas.setVisibleItems(5);
         wvAreas.setViewAdapter(areaAdapter);
         wvAreas.setCurrentItem(getAresItem(strArea));
-
+        Log.e(TAG, "【onCreate2】 strProvince="+strProvince+" strCity="+strCity+" strArea="+strArea);
         wvProvince.addChangingListener(new OnWheelChangedListener() {
 
             @Override
             public void onChanged(WheelView wheel, int oldValue, int newValue) {
                 // TODO Auto-generated method stub
+                Log.e(TAG, "wvProvince onChanged: " );
                 String currentText = (String) provinceAdapter.getItemText(wheel.getCurrentItem());
                 strProvince = currentText;
                 strProvinceId = arrProvinceIds.get(wheel.getCurrentItem());
@@ -160,6 +169,7 @@ public class ChangeAddressDialog extends Dialog implements View.OnClickListener 
             @Override
             public void onChanged(WheelView wheel, int oldValue, int newValue) {
                 // TODO Auto-generated method stub
+                Log.e(TAG, "wvCitys onChanged: " );
                 String currentText = (String) cityAdapter.getItemText(wheel.getCurrentItem());
                 strCity = currentText;
                 strCityId = arrCityIds.get(wheel.getCurrentItem());
@@ -195,11 +205,11 @@ public class ChangeAddressDialog extends Dialog implements View.OnClickListener 
             @Override
             public void onChanged(WheelView wheel, int oldValue, int newValue) {
                 // TODO Auto-generated method stub
+                Log.e(TAG, "wvAreas onChanged: " );
                 String currentText = (String) areaAdapter.getItemText(wheel.getCurrentItem());
                 strArea = currentText;
                 strAreaId = arrAreaIds.get(wheel.getCurrentItem());
                 setTextviewSize(currentText, areaAdapter);
-                Log.i(TAG, "wvAreas onChanged: ");
             }
         });
 
@@ -218,13 +228,19 @@ public class ChangeAddressDialog extends Dialog implements View.OnClickListener 
                 setTextviewSize(currentText, areaAdapter);
             }
         });
+
+        strProvinceId = arrProvinceIds.get(getProvinceItem(strProvince));
+        strCityId = arrCityIds.get(getCityItem(strCity));
+        strAreaId = arrAreaIds.get(getAresItem(strArea));
+
+        Log.e(TAG, "【onCreate3】 strProvince="+strProvince+" strCity="+strCity+" strArea="+strArea);
     }
 
 
     private class AddressTextAdapter extends AbstractWheelTextAdapter {
-        ArrayList<String> list;
+      List<String> list;
 
-        protected AddressTextAdapter(Context context, ArrayList<String> list, int currentItem, int maxsize, int minsize) {
+        protected AddressTextAdapter(Context context, List<String> list, int currentItem, int maxsize, int minsize) {
             super(context, R.layout.item_birth_year, NO_RESOURCE, currentItem, maxsize, minsize);
             this.list = list;
             setItemTextResource(R.id.tempValue);
@@ -486,24 +502,26 @@ public class ChangeAddressDialog extends Dialog implements View.OnClickListener 
      * @param city
      */
     public void setAddress(String province, String city, String area,String provinceId, String cityId, String areaId) {
+
         if (province != null && province.length() > 0) {
             this.strProvince = province;
         }
         if (city != null && city.length() > 0) {
             this.strCity = city;
         }
-        if (area != null && city.length() > 0) {
+        if (area != null && area.length() > 0) {
             this.strArea = area;
         }
-        if (area != null && city.length() > 0) {
+        if (provinceId != null && provinceId.length() > 0) {
             this.strProvinceId = provinceId;
         }
-        if (area != null && city.length() > 0) {
+        if (cityId != null && cityId.length() > 0) {
             this.strCityId = cityId;
         }
-        if (area != null && city.length() > 0) {
+        if (areaId != null && areaId.length() > 0) {
             this.strAreaId = areaId;
         }
+        Log.e(TAG, "【setAddress】 strProvince="+strProvince+" strCity="+strCity+" strArea="+strArea);
     }
 
     /**
@@ -540,7 +558,6 @@ public class ChangeAddressDialog extends Dialog implements View.OnClickListener 
         int cityIndex = 0;
         boolean nocity = true;
         for (int i = 0; i < arrCitys.size(); i++) {
-//			System.out.println(arrCitys.get(i));
             if (city.equals(arrCitys.get(i))) {
                 nocity = false;
                 return cityIndex;
