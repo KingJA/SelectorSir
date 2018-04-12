@@ -7,7 +7,6 @@ import android.view.View;
 
 import com.kingja.selectorsir.AddressInfo;
 import com.kingja.selectorsir.AddressSelector;
-import com.kingja.selectorsir.wheelview.ChangeAddressDialog;
 
 public class MainActivity extends AppCompatActivity {
 

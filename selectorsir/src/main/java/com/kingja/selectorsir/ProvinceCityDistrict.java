@@ -22,20 +22,6 @@ public class ProvinceCityDistrict {
     }
 
     public static class Province {
-        /**
-         * provinceId : 110000
-         * provinceName : 北京市
-         * cities : [{"cityId":"110100","cityName":"北京","districts":[{"districtId":"110101","districtName":"东城区"},
-         * {"districtId":"110102","districtName":"西城区"},{"districtId":"110103","districtName":"崇文区"},
-         * {"districtId":"110104","districtName":"宣武区"},{"districtId":"110105","districtName":"朝阳区"},
-         * {"districtId":"110106","districtName":"丰台区"},{"districtId":"110107","districtName":"石景山区"},
-         * {"districtId":"110108","districtName":"海淀区"},{"districtId":"110109","districtName":"门头沟区"},
-         * {"districtId":"110111","districtName":"房山区"},{"districtId":"110112","districtName":"通州区"},
-         * {"districtId":"110113","districtName":"顺义区"},{"districtId":"110114","districtName":"昌平区"},
-         * {"districtId":"110115","districtName":"大兴区"},{"districtId":"110116","districtName":"怀柔区"},
-         * {"districtId":"110117","districtName":"平谷区"},{"districtId":"110228","districtName":"密云县"},
-         * {"districtId":"110229","districtName":"延庆县"}]}]
-         */
 
         private String provinceId;
         private String provinceName;
@@ -66,20 +52,6 @@ public class ProvinceCityDistrict {
         }
 
         public static class City {
-            /**
-             * cityId : 110100
-             * cityName : 北京
-             * districts : [{"districtId":"110101","districtName":"东城区"},{"districtId":"110102",
-             * "districtName":"西城区"},{"districtId":"110103","districtName":"崇文区"},{"districtId":"110104",
-             * "districtName":"宣武区"},{"districtId":"110105","districtName":"朝阳区"},{"districtId":"110106",
-             * "districtName":"丰台区"},{"districtId":"110107","districtName":"石景山区"},{"districtId":"110108",
-             * "districtName":"海淀区"},{"districtId":"110109","districtName":"门头沟区"},{"districtId":"110111",
-             * "districtName":"房山区"},{"districtId":"110112","districtName":"通州区"},{"districtId":"110113",
-             * "districtName":"顺义区"},{"districtId":"110114","districtName":"昌平区"},{"districtId":"110115",
-             * "districtName":"大兴区"},{"districtId":"110116","districtName":"怀柔区"},{"districtId":"110117",
-             * "districtName":"平谷区"},{"districtId":"110228","districtName":"密云县"},{"districtId":"110229",
-             * "districtName":"延庆县"}]
-             */
 
             private String cityId;
             private String cityName;
@@ -110,10 +82,6 @@ public class ProvinceCityDistrict {
             }
 
             public static class District {
-                /**
-                 * districtId : 110101
-                 * districtName : 东城区
-                 */
 
                 private String districtId;
                 private String districtName;

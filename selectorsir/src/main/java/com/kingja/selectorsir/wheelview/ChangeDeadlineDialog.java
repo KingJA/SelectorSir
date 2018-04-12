@@ -15,12 +15,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 
-/**
- * 日期选择对话框
- * 
- * @author ywl
- *
- */
 public class ChangeDeadlineDialog extends Dialog implements View.OnClickListener {
 
 	private Context context;
@@ -311,12 +305,6 @@ public class ChangeDeadlineDialog extends Dialog implements View.OnClickListener
 		public void onClick(String year, String month, String day);
 	}
 
-	/**
-	 * 设置字体大小
-	 * 
-	 * @param curriteItemText
-	 * @param adapter
-	 */
 	public void setTextviewSize(String curriteItemText, CalendarTextAdapter adapter) {
 		ArrayList<View> arrayList = adapter.getTestViews();
 		int size = arrayList.size();
@@ -353,13 +341,6 @@ public class ChangeDeadlineDialog extends Dialog implements View.OnClickListener
 		this.currentMonth = 1;
 	}
 
-	/**
-	 * 设置年月日
-	 * 
-	 * @param year
-	 * @param month
-	 * @param day
-	 */
 	public void setDate(int year, int month, int day) {
 		selectYear = year + "";
 		selectMonth = month + "";
@@ -376,12 +357,6 @@ public class ChangeDeadlineDialog extends Dialog implements View.OnClickListener
 		}
 		calDays(year, month);
 	}
-
-	/**
-	 * 设置年份
-	 * 
-	 * @param year
-	 */
 	public int setYear(int year) {
 		int yearIndex = 0;
 		if (year != getYear()) {
@@ -398,12 +373,6 @@ public class ChangeDeadlineDialog extends Dialog implements View.OnClickListener
 		return yearIndex;
 	}
 
-	/**
-	 * 设置月份
-	 *
-	 * @param month
-	 * @return
-	 */
 	public int setMonth(int month) {
 		int monthIndex = 0;
 		calDays(currentYear, month);
@@ -417,12 +386,6 @@ public class ChangeDeadlineDialog extends Dialog implements View.OnClickListener
 		return monthIndex;
 	}
 
-	/**
-	 * 计算每月多少天
-	 * 
-	 * @param month
-	 * @param year
-	 */
 	public void calDays(int year, int month) {
 		boolean leayyear = false;
 		if (year % 4 == 0 && year % 100 != 0) {

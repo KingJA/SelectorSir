@@ -5,7 +5,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -31,7 +33,7 @@ public class AddressSelector extends Dialog implements View.OnClickListener {
     private String cityName;
     private String districtName;
     private ProvinceCityDistrict provinceCityDistrict;
-    private int maxsize = 24;
+    private int maxsize = 20;
     private int minsize = 14;
     private List<AddressInfo> provinceInfos;
     private Map<String, List<AddressInfo>> province2CitiesMap;
@@ -52,7 +54,6 @@ public class AddressSelector extends Dialog implements View.OnClickListener {
         this.provinceName = provinceName;
         this.cityName = cityName;
         this.districtName = districtName;
-        Log.e(TAG, "构造方法: ");
         initJsonData();
     }
 
@@ -97,14 +98,13 @@ public class AddressSelector extends Dialog implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.e(TAG, "onCreate: ");
         setContentView(R.layout.dialog_myinfo_changeaddress);
         WheelView wvProvince = findViewById(R.id.wv_address_province);
         final WheelView wvCity = findViewById(R.id.wv_address_city);
         final WheelView wvDistrict = findViewById(R.id.wv_address_area);
 
-        TextView tv_selector_confirm = (TextView) findViewById(R.id.tv_selector_confirm);
-        TextView tv_selector_cancel = (TextView) findViewById(R.id.tv_selector_cancel);
+        TextView tv_selector_confirm = findViewById(R.id.tv_selector_confirm);
+        TextView tv_selector_cancel =  findViewById(R.id.tv_selector_cancel);
 
         tv_selector_confirm.setOnClickListener(this);
         tv_selector_cancel.setOnClickListener(this);
@@ -198,9 +198,9 @@ public class AddressSelector extends Dialog implements View.OnClickListener {
             TextView textvew = (TextView) arrayList.get(i);
             currentText = textvew.getText().toString();
             if (curriteItemText.equals(currentText)) {
-                textvew.setTextSize(24);
+                textvew.setTextSize(maxsize);
             } else {
-                textvew.setTextSize(14);
+                textvew.setTextSize(minsize);
             }
         }
     }
@@ -241,5 +241,15 @@ public class AddressSelector extends Dialog implements View.OnClickListener {
 
     public void setOnAddressSelectedListener(OnAddressSelectedListener onAddressSelectedListener) {
         this.onAddressSelectedListener = onAddressSelectedListener;
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+        layoutParams.width= WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height= WindowManager.LayoutParams.WRAP_CONTENT;
+        getWindow().setAttributes(layoutParams);
+
     }
 }

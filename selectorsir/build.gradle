@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 26
@@ -31,4 +32,12 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'com.google.code.gson:gson:2.2.4'
+}
+publish {
+    artifactId = 'selectorsir'
+    userOrg = 'kingja'
+    groupId = 'com.kingja.selectorsir'
+    publishVersion = '1.0.0'
+    desc = 'A simple selector for android'
+    website = 'https://github.com/KingJA/SelectorSir'
 }
