@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -57,6 +56,46 @@ public class AddressSelector extends Dialog implements View.OnClickListener {
         initJsonData();
     }
 
+    public AddressSelector(@NonNull Context context) {
+        super(context);
+        initJsonData();
+    }
+
+    public void setCityName(String cityName) {
+        initByCityCode(cityName);
+    }
+    public void setDistrictId(String districtId) {
+        initByDistrictId(districtId);
+    }
+
+    private void initByCityCode(String cityName) {
+        for (ProvinceCityDistrict.Province province : provinceCityDistrict.getProvinces()) {
+            List<ProvinceCityDistrict.Province.City> cities = province.getCities();
+            for (ProvinceCityDistrict.Province.City city : cities) {
+                if (cityName.equals(city.getCityName())) {
+                    this.cityName = city.getCityName();
+                    this.provinceName = province.getProvinceName();
+                    this.districtName = city.getDistricts().get(0).getDistrictName();
+                }
+            }
+        }
+    }
+    private void initByDistrictId(String districtId) {
+        for (ProvinceCityDistrict.Province province : provinceCityDistrict.getProvinces()) {
+            List<ProvinceCityDistrict.Province.City> cities = province.getCities();
+            for (ProvinceCityDistrict.Province.City city : cities) {
+                List<ProvinceCityDistrict.Province.City.District> districts = city.getDistricts();
+                for (ProvinceCityDistrict.Province.City.District district : districts) {
+                    if (districtId.equals(district.getDistrictId())) {
+                        this.cityName = city.getCityName();
+                        this.provinceName = province.getProvinceName();
+                        this.districtName =district.getDistrictName();
+                    }
+                }
+            }
+        }
+    }
+
     private void initJsonData() {
         try {
             StringBuffer sb = new StringBuffer();
@@ -67,7 +106,7 @@ public class AddressSelector extends Dialog implements View.OnClickListener {
                 sb.append(new String(buf, 0, len, "gbk"));
             }
             is.close();
-            ProvinceCityDistrict provinceCityDistrict = new Gson().fromJson(sb.toString(), ProvinceCityDistrict.class);
+            provinceCityDistrict = new Gson().fromJson(sb.toString(), ProvinceCityDistrict.class);
             initAddresses(provinceCityDistrict);
         } catch (IOException e) {
             e.printStackTrace();
@@ -104,11 +143,10 @@ public class AddressSelector extends Dialog implements View.OnClickListener {
         final WheelView wvDistrict = findViewById(R.id.wv_address_area);
 
         TextView tv_selector_confirm = findViewById(R.id.tv_selector_confirm);
-        TextView tv_selector_cancel =  findViewById(R.id.tv_selector_cancel);
+        TextView tv_selector_cancel = findViewById(R.id.tv_selector_cancel);
 
         tv_selector_confirm.setOnClickListener(this);
         tv_selector_cancel.setOnClickListener(this);
-
 
         int provinceIndex = getAddressItemIndex(provinceName, provinceInfos);
         provinceAdapter = new AddressTextAdapter(getContext(), provinceInfos, provinceIndex,
@@ -247,8 +285,8 @@ public class AddressSelector extends Dialog implements View.OnClickListener {
     public void show() {
         super.show();
         WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
-        layoutParams.width= WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height= WindowManager.LayoutParams.WRAP_CONTENT;
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         getWindow().setAttributes(layoutParams);
 
     }
