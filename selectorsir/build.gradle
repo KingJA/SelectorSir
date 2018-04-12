@@ -37,7 +37,7 @@ publish {
     artifactId = 'selectorsir'
     userOrg = 'kingja'
     groupId = 'com.kingja.selectorsir'
-    publishVersion = '1.0.0'
+    publishVersion = '1.1.0'
     desc = 'A simple selector for android'
     website = 'https://github.com/KingJA/SelectorSir'
 }
