@@ -17,7 +17,7 @@ public class AddressTextAdapter extends AbstractWheelTextAdapter {
 
     protected AddressTextAdapter(Context context, List<AddressInfo> list, int currentItem, int
             maxsize, int minsize) {
-        super(context, R.layout.item_birth_year, NO_RESOURCE, currentItem, maxsize, minsize);
+        super(context, R.layout.item_text, NO_RESOURCE, currentItem, maxsize, minsize);
         this.list = list;
         setItemTextResource(R.id.tempValue);
     }

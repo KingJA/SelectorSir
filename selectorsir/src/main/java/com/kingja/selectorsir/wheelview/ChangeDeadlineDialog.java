@@ -63,7 +63,7 @@ public class ChangeDeadlineDialog extends Dialog implements View.OnClickListener
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.dialog_myinfo_changebirth);
+		setContentView(R.layout.dialog_date_selector);
 		wvYear = (WheelView) findViewById(R.id.wv_birth_year);
 		wvMonth = (WheelView) findViewById(R.id.wv_birth_month);
 		wvDay = (WheelView) findViewById(R.id.wv_birth_day);
@@ -257,7 +257,7 @@ public class ChangeDeadlineDialog extends Dialog implements View.OnClickListener
 		ArrayList<String> list;
 
 		protected CalendarTextAdapter(Context context, ArrayList<String> list, int currentItem, int maxsize, int minsize) {
-			super(context, R.layout.item_birth_year, NO_RESOURCE, currentItem, maxsize, minsize);
+			super(context, R.layout.item_text, NO_RESOURCE, currentItem, maxsize, minsize);
 			this.list = list;
 			setItemTextResource(R.id.tempValue);
 		}

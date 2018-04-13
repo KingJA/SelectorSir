@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -13,8 +12,12 @@ import com.google.gson.Gson;
 import com.kingja.selectorsir.wheelview.OnWheelChangedListener;
 import com.kingja.selectorsir.wheelview.WheelView;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,6 +67,7 @@ public class AddressSelector extends Dialog implements View.OnClickListener {
     public void setCityName(String cityName) {
         initByCityCode(cityName);
     }
+
     public void setDistrictId(String districtId) {
         initByDistrictId(districtId);
     }
@@ -80,6 +84,7 @@ public class AddressSelector extends Dialog implements View.OnClickListener {
             }
         }
     }
+
     private void initByDistrictId(String districtId) {
         for (ProvinceCityDistrict.Province province : provinceCityDistrict.getProvinces()) {
             List<ProvinceCityDistrict.Province.City> cities = province.getCities();
@@ -89,7 +94,7 @@ public class AddressSelector extends Dialog implements View.OnClickListener {
                     if (districtId.equals(district.getDistrictId())) {
                         this.cityName = city.getCityName();
                         this.provinceName = province.getProvinceName();
-                        this.districtName =district.getDistrictName();
+                        this.districtName = district.getDistrictName();
                     }
                 }
             }
@@ -99,11 +104,12 @@ public class AddressSelector extends Dialog implements View.OnClickListener {
     private void initJsonData() {
         try {
             StringBuffer sb = new StringBuffer();
-            InputStream is = getContext().getAssets().open("city_id.json");
-            int len = -1;
-            byte[] buf = new byte[1024];
-            while ((len = is.read(buf)) != -1) {
-                sb.append(new String(buf, 0, len, "gbk"));
+            InputStream is = getContext().getAssets().open("citys.json");
+            BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            String line = br.readLine();
+            while (line != null) {
+                sb.append(line);
+                line = br.readLine();
             }
             is.close();
             provinceCityDistrict = new Gson().fromJson(sb.toString(), ProvinceCityDistrict.class);
@@ -129,15 +135,25 @@ public class AddressSelector extends Dialog implements View.OnClickListener {
                 for (ProvinceCityDistrict.Province.City.District district : districts) {
                     districtInfos.add(new AddressInfo(district.getDistrictId(), district.getDistrictName()));
                 }
-                city2DistrictsMap.put(city.getCityName(), districtInfos);
+                city2DistrictsMap.put(city.getCityName(), getDefaultInfos(districtInfos));
             }
-            province2CitiesMap.put(province.getProvinceName(), cityInfos);
+            province2CitiesMap.put(province.getProvinceName(), getDefaultInfos(cityInfos));
+        }
+    }
+
+    public List<AddressInfo> getDefaultInfos(List<AddressInfo> infos) {
+        if (infos.size() > 0) {
+            return infos;
+        } else {
+            List<AddressInfo> defaultInfos = new ArrayList<>();
+            defaultInfos.add(new AddressInfo("", ""));
+            return defaultInfos;
         }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.dialog_myinfo_changeaddress);
+        setContentView(R.layout.dialog_address_selector);
         WheelView wvProvince = findViewById(R.id.wv_address_province);
         final WheelView wvCity = findViewById(R.id.wv_address_city);
         final WheelView wvDistrict = findViewById(R.id.wv_address_area);
@@ -227,6 +243,7 @@ public class AddressSelector extends Dialog implements View.OnClickListener {
         cityInfo = getCurrentAddressInfo(cityName, cityInfos);
         districtInfo = getCurrentAddressInfo(districtName, districtInfos);
     }
+
 
     public void setTextviewSize(String curriteItemText, AddressTextAdapter adapter) {
         ArrayList<View> arrayList = adapter.getTestViews();
